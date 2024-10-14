@@ -4,8 +4,22 @@ import subprocess
 from pathlib import Path
 import sys
 
+# Onyx Boox 기기명과 해상도
+DEVICE_RESOLUTIONS = {
+    1: ("Go 10.3", (2480, 1860)),
+    2: ("Tab X", (1650, 2200)),
+    3: ("Page", (1264, 1680)),
+    4: ("Note Air 2 Plus", (1404, 1872)),
+    5: ("Go 6", (1072, 1448)),
+    6: ("Palma", (824, 1648)),
+    7: ("Go Color 7", (1264, 1680)),
+    8: ("Note Air 3 C", (2480, 1860)),
+    9: ("Tab Ultra C Pro", (2480, 1860)),
+    10: ("Tab Mini C", (1872, 1404))
+}
+
 def get_image_dimensions(image_path):
-    """ffprobe를 사용하여 이미지의 너비와 높이를 가져옵니다."""
+    """ffprobe를 사용하여 이미지의 너비와 높이를 가져옴"""
     try:
         cmd = [
             'ffprobe', '-v', 'error',
@@ -21,11 +35,11 @@ def get_image_dimensions(image_path):
         print(f"Error getting dimensions for {image_path}: {e}")
         return None, None
 
-def resize_image(image_path, temp_path):
-    """가로 해상도를 824로 리사이즈합니다."""
+def resize_image(image_path, temp_path, target_width):
+    """가로 해상도를 target_width로 리사이즈"""
     ffmpeg_cmd = [
         'ffmpeg', '-i', str(image_path),
-        '-vf', 'scale=824:-1',  # 가로를 824로 리사이즈, 세로는 비율 유지
+        f'-vf', f'scale={target_width}:-1',  # 가로를 target_width로 리사이즈, 세로는 비율 유지
         '-y',  # 기존 파일 덮어쓰지 않음
         str(temp_path)
     ]
@@ -36,11 +50,11 @@ def resize_image(image_path, temp_path):
         print(f"Error resizing image {image_path}: {e}")
         return False
 
-def crop_image(temp_path, output_path):
-    """세로 해상도를 1648로 중앙 크롭합니다."""
+def crop_image(temp_path, output_path, target_width, target_height):
+    """해상도를 target_width x target_height로 중앙 크롭함"""
     ffmpeg_cmd = [
         'ffmpeg', '-i', str(temp_path),
-        '-vf', 'crop=824:1648',  # 가로는 824 유지, 세로는 1648로 크롭
+        f'-vf', f'crop={target_width}:{target_height}',  # 주어진 해상도로 크롭
         '-y',  # 기존 파일 덮어쓰지 않음
         str(output_path)
     ]
@@ -51,7 +65,7 @@ def crop_image(temp_path, output_path):
         print(f"Error cropping image {temp_path}: {e}")
         return False
 
-def process_image(image_path):
+def process_image(image_path, target_width, target_height):
     img = Path(image_path)
     if not img.is_file():
         print(f"Error: {img} is not a valid file.")
@@ -65,7 +79,7 @@ def process_image(image_path):
     temp_image_path = img.parent / (img.stem + "_temp" + img.suffix)
 
     # 이미지 리사이즈
-    if not resize_image(img, temp_image_path):
+    if not resize_image(img, temp_image_path, target_width):
         return
 
     # 리사이즈된 이미지의 세로 해상도 확인
@@ -74,25 +88,44 @@ def process_image(image_path):
         temp_image_path.unlink(missing_ok=True)
         return
 
-    if height >= 1648:
-        # 세로 해상도가 1648 이상이면 크롭
-        if crop_image(temp_image_path, output_path):
+    if height >= target_height:
+        # 세로 해상도가 target_height 이상이면 크롭
+        if crop_image(temp_image_path, output_path, target_width, target_height):
             print(f"Image resized and cropped, saved as {output_path}")
     else:
-        # 세로 해상도가 1648 미만이면 크롭하지 않고 리사이즈된 이미지를 저장
+        # 세로 해상도가 target_height 미만이면 크롭하지 않고 리사이즈된 이미지를 저장
         temp_image_path.rename(output_path)
         print(f"Image resized without cropping, saved as {output_path}")
 
     # 임시 파일 삭제
     temp_image_path.unlink(missing_ok=True)
 
-def process_images_in_directory(directory):
+def process_images_in_directory(directory, target_width, target_height):
     supported_formats = ('.jpg', '.jpeg', '.png')
     for img_file in Path(directory).glob('*'):
         if img_file.suffix.lower() in supported_formats:
-            process_image(img_file)
+            process_image(img_file, target_width, target_height)
+
+def select_device():
+    print("Select your Onyx Boox device:")
+    for key, (device, resolution) in DEVICE_RESOLUTIONS.items():
+        print(f"{key}: {device} ({resolution[0]}x{resolution[1]})")
+    
+    while True:
+        try:
+            choice = int(input("Enter the number corresponding to your device: "))
+            if choice in DEVICE_RESOLUTIONS:
+                return DEVICE_RESOLUTIONS[choice]
+            else:
+                print("Invalid choice. Please try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 def main():
+    # 기기 선택
+    device_name, (target_width, target_height) = select_device()
+    print(f"Selected device: {device_name} with resolution {target_width}x{target_height}")
+
     # 명령줄 인자 처리
     if len(sys.argv) > 1:
         input_path = sys.argv[1]
@@ -100,9 +133,9 @@ def main():
         input_path = input("Enter image file or directory path: ").strip()
 
     if os.path.isfile(input_path):
-        process_image(input_path)
+        process_image(input_path, target_width, target_height)
     elif os.path.isdir(input_path):
-        process_images_in_directory(input_path)
+        process_images_in_directory(input_path, target_width, target_height)
     else:
         print("Invalid input. Please provide a valid file or directory path.")
 

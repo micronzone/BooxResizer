@@ -7,13 +7,28 @@
 
 BooxResizer는 Onyx Boox 전자책 리더기의 해상도에 맞게 이미지를 리사이즈하고 크롭하는 Python 스크립트입니다.
 
-> 현재 Palma 모델에 최적화되어 있으며, 향후 다양한 Onyx Boox 모델을 지원할 예정입니다.
+> 현재 인기있는 Onyx Boox 모델에 최적화되어 있으며, 향후 모든 Onyx Boox 모델을 지원할 예정입니다.
+
+### Onyx Boox
+
+- Go 10.3 (2480x1860)
+- Tab X (1650×2200)
+- Page (1264x1680)
+- Note Air 2 Plus (1404x1872 )
+- Go 6 (1072×1448)
+- Palma (824x1648)
+- Go Color 7 (1264x1680)
+- Note Air 3 C (2480x1860)
+- Tab Ultra C Pro (2480x1860)
+- Tab Mini C (1872x1404)
 
 ### 기능
 
 - 단일 이미지 또는 전체 디렉토리의 이미지를 한 번에 처리
 - 인터랙티브 모드 지원 (대화형으로 쉬운 진행)
 - 지원하는 이미지 포맷(`jpg`, `jpeg`, `png`)
+
+<img width="682" alt="ss" src="https://github.com/user-attachments/assets/2c593a12-eb98-4d0d-a115-22089b6d40be">
 
 ### 설치
 
@@ -40,7 +55,7 @@ alias booxresizer='/path/to/booxresizer'
 source ~/.zshrc
 ```
 
-### 종속성 설치
+### 종속성
 
 [FFmpeg 공식 웹사이트](https://ffmpeg.org/download.html)에서 다운로드할 수 있습니다.
 

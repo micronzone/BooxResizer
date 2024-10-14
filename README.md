@@ -7,13 +7,28 @@
 
 BooxResizer is a Python script that resizes and crops images to fit the resolution of Onyx Boox e-readers.
 
-> Currently optimized for the Palma model, with plans to support additional Onyx Boox models in the future.
+> The script is currently optimized for popular Onyx Boox models and will support all Onyx Boox models in the future.
+
+### Onyx Boox
+
+- Go 10.3 (2480x1860)
+- Tab X (1650×2200)
+- Page (1264x1680)
+- Note Air 2 Plus (1404x1872 )
+- Go 6 (1072×1448)
+- Palma (824x1648)
+- Go Color 7 (1264x1680)
+- Note Air 3 C (2480x1860)
+- Tab Ultra C Pro (2480x1860)
+- Tab Mini C (1872x1404)
 
 ### Features
 
 - Process a single image or an entire directory at once
 - Supports interactive mode for easy, guided usage
 - Supports image formats: `jpg`, `jpeg`, `png`
+
+<img width="682" alt="ss" src="https://github.com/user-attachments/assets/2c593a12-eb98-4d0d-a115-22089b6d40be">
 
 ### Installation
 
