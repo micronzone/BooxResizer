@@ -26,14 +26,14 @@ cd BooxResizer
 
 실행 권한 부여:
 ```bash
-chmod +x obresizer
+chmod +x booxresizer
 ```
 
 별칭 추가 (선택 사항):
 
 ```bash
 nano ~/.zshrc   # macOS ~/.zshrc, Linux `~/.bashrc` or `~/.zshrc`
-alias ytdclip='/path/to/obresizer'
+alias booxresizer='/path/to/booxresizer'
 ```
 
 ```bash
@@ -54,21 +54,21 @@ brew install ffmpeg
 BooxResizer는 명령줄 인터페이스(CLI)를 통해 사용하거나, 인터랙티브 모드를 통해 사용할 수 있습니다.
 
 ```bash
-# obresizer를 별칭에 추가한 실행 방법입니다(설치 참고) 또는 BooxResizer 디렉토리에서 ./obresizer 실행
-obresizer
-obresizer [파일 또는 디렉토리]
+# booxresizer를 별칭에 추가한 실행 방법입니다(설치 참고) 또는 BooxResizer 디렉토리에서 ./booxresizer 실행
+booxresizer
+booxresizer [파일 또는 디렉토리]
 ```
 
 ### 예제
 
 배경화면 디렉토리에 있는 단일 이미지 변환
 ```bash
-obresizer ~/배경화면/고양이.png
+booxresizer ~/배경화면/고양이.png
 ```
 
 배경화면 디렉토리에 있는 모든 이미지 일괄 변환
 ```bash
-obresizer ~/배경화면
+booxresizer ~/배경화면
 ```
 
 ### 업데이트

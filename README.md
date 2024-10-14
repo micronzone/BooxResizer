@@ -26,14 +26,14 @@ cd BooxResizer
 
 Grant execute permissions:
 ```bash
-chmod +x obresizer
+chmod +x booxresizer
 ```
 
 Optional: Add an alias for easier use:
 
 ```bash
 nano ~/.zshrc   # macOS ~/.zshrc, Linux `~/.bashrc` or `~/.zshrc`
-alias ytdclip='/path/to/obresizer'
+alias booxresizer='/path/to/booxresizer'
 ```
 
 ```bash
@@ -54,21 +54,21 @@ brew install ffmpeg
 BooxResizer can be used via the command line interface (CLI) or in interactive mode.
 
 ```bash
-# If you added an alias for obresizer (see installation) or run it directly from the BooxResizer directory:
-obresizer
-obresizer [file or directory]
+# If you added an alias for booxresizer (see installation) or run it directly from the BooxResizer directory:
+booxresizer
+booxresizer [file or directory]
 ```
 
 ### Examples
 
 Convert a single image from the wallpaper directory:
 ```bash
-obresizer ~/Wallpapers/cat.png
+booxresizer ~/Wallpapers/cat.png
 ```
 
 Batch convert all images in the wallpaper directory:
 ```bash
-obresizer ~/Wallpapers
+booxresizer ~/Wallpapers
 ```
 
 ### Updates
