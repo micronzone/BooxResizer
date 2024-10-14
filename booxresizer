@@ -4,6 +4,20 @@ import subprocess
 from pathlib import Path
 import sys
 
+# Micronzone's BooxResizer
+# https://github.com/micronzone/BooxResizer
+def print_signature():
+    columns = os.get_terminal_size().columns
+    text = "BooxResizer v1.0.0 (https://github.com/micronzone/BooxResizer)"
+    text_length = len(text)
+    padding_length = (columns - text_length) // 2
+    pattern = "*="
+    full_pattern = pattern * (padding_length // len(pattern))
+    line = full_pattern + text + full_pattern
+    if len(line) < columns:
+        line += pattern[:columns - len(line)]
+    print(line)
+
 # Onyx Boox 기기명과 해상도
 DEVICE_RESOLUTIONS = {
     1: ("Go 10.3", (2480, 1860)),
@@ -122,6 +136,7 @@ def select_device():
             print("Invalid input. Please enter a number.")
 
 def main():
+    print_signature()
     # 기기 선택
     device_name, (target_width, target_height) = select_device()
     print(f"Selected device: {device_name} with resolution {target_width}x{target_height}")
